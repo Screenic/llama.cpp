@@ -1,0 +1,29 @@
+name: Test Permissions
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/test-permissions.yml'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Test Checkout
+      uses: actions/checkout@v4
+      
+    - name: Test Write Permission
+      run: |
+        echo "Testing permissions..."
+        echo "User: ${{ github.actor }}"
+        echo "Repository: ${{ github.repository }}"
+        echo "Workflow: ${{ github.workflow }}"
+        echo "Permissions test successful!" > test.txt
+        ls -la
+        
+    - name: Upload Test
+      uses: actions/upload-artifact@v4
+      with:
+        name: test-artifact
+        path: test.txt
